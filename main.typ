@@ -16,6 +16,11 @@
 
 = Fast and safe web services with axum
 
+== Goal
+- Broad Overview about Rust and it's current usage
+- Detailed example to illustrate some features
+- Encourage audience to try it out
+
 == Outline
 - About myself
 - My way to Rust
@@ -50,7 +55,7 @@ Disclaimer: I am a fan of Rust
 - Compiled, statically typed language
 - Ecosystem at hand with `cargo`: Build, test, release, format, lint, manage dependencies (so-called crates)
 #pause
-- #link("https://doc.rust-lang.org/rustc/platform-support.html")[Many different build targets]
+- #text(blue.lighten(20%), link("https://doc.rust-lang.org/rustc/platform-support.html")[Many different build targets])
   - Embedded devices like ESP32
   - Major CPU architectures: x86, ARM, 
   - Multiple platforms: Linux, Mac, Windows, Android, Web Assembly, ...
@@ -74,8 +79,8 @@ Disclaimer: I am a fan of Rust
 
 == Rust Intro
 === Usage / Adoption
-- #link("https://google.github.io/comprehensive-rust/")[Android]
-- AWS Lambda (via #link("https://firecracker-microvm.github.io/")[Firecracker])
+- #text(blue.lighten(20%), link("https://google.github.io/comprehensive-rust/")[Android])
+- AWS Lambda (via #text(blue.lighten(20%), link("https://firecracker-microvm.github.io/")[Firecracker]))
 - Discord, Dropbox, Cloudflare backend systems
 - Mozilla Servo (browser engine)
 #pause
@@ -85,11 +90,12 @@ Disclaimer: I am a fan of Rust
 - Operating Systems (Redox OS, Linux Kernel)
 - Cryptocurrency projects
 
-... and many many more
+... and #text(blue.lighten(20%), link("https://github.com/rust-unofficial/awesome-rust")[many many more])
 
 == Rust Intro
 === Hello World
-- Install Rust toolchain via #link("https://rustup.rs/")[rustup.rs]:
+- Install Rust toolchain via #text(blue.lighten(20%), link("https://rustup.rs/")[rustup.rs]):
+  #codly(number-format: none)
   ```shell
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   ```
@@ -103,17 +109,22 @@ Disclaimer: I am a fan of Rust
 
 == Rust Intro
 === Hello World
+  #codly(number-format: numbering.with("1"))
 ```rust
 fn main() {
   println!("Hello World!");
 }
 ```
 
-== Rust web frameworks
-- Famous choices: Actix Web, Rocket, Warp, Axum
+== Rust Web Backend Frameworks
+- Famous choices: Actix Web, Rocket, Warp, Axum, Rouille, Tide, ...
+- #text(blue.lighten(20%), link("https://www.rustfinity.com/blog/best-rust-web-frameworks")[Framework Comparison ])
+- For benchmark results, see the #text(blue.lighten(20%), link("https://www.techempower.com/benchmarks/#hw=ph&test=fortune&section=data-r22&l=yyku7z-cn3")[Tech Empower Web Framework Benchmarks])
+
 
 == ToDo Example
 === Initialize project
+#codly(number-format: none)
 ```shell
 cargo init todos
 cd todos
@@ -131,6 +142,7 @@ cargo add serde_json
 == ToDo Example
 #set text(size: 17pt)
 === Static Axum Server
+#codly(number-format: numbering.with("1"))
 ```rust
 use axum::{response::IntoResponse, routing::get, Router};
 
@@ -244,7 +256,7 @@ use axum::Json;
 async fn list_todos() -> Json<Vec<TodoItem>> {
     let todo = TodoItem {
         id: Uuid::new_v4(),
-        title: "First ToDo".into(),
+        title: "First Todo".into(),
         completed: false,
     };
     return Json(vec![todo]);
@@ -335,6 +347,7 @@ struct TodoItemCreateRequest {
 == ToDo Example
 #set text(size: 16pt)
 #codly(header: [*Add `create_todo` handler function*], highlights: (
+  (line: 2, start: 11, end: 15, fill: blue),
   (line: 2, start: 19, end: 38, fill: blue),
   (line: 3, start: 10, end: 16, fill: fuchsia),
   (line: 3, start: 25, end: 45, fill: fuchsia),
@@ -415,7 +428,21 @@ async fn delete_todo(
 }
 ```
 
+== ToDo Example
+=== Building a release version
+#codly(number-format: none)
+```shell
+$> cargo build --release
+
+$> ls -lah ./target/release/todos
+-rwxr-xr-x@ 1 tim  staff   1.8M Jan 11 00:33 ./target/release/todos*
+```
+
+
+
 == Additional Notes
 - Weekly newsletter: "This week in Rust"
 - Wide Editor support: (RustRover, VSCode, Emacs, Vim, Zed, ...)
+- Deep Dives: Crust of Rust
+- Books: Which ones?
 // TODO: compare cargo,axum,crate etc with equivalents in JS/PHP world
