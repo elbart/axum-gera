@@ -1,8 +1,7 @@
 #import "@preview/touying:0.5.5": *
 #import themes.metropolis: *
 #import "@preview/codly:1.2.0": *
-#import "@preview/codly-languages:0.1.1": *
-
+#import "@preview/codly-languages:0.1.4": *
 
 #show: codly-init.with()
 #codly(languages: codly-languages)
@@ -31,7 +30,7 @@
 - Working at #box(height: 20pt, image("img/qdrant-logo.png")) as Staff Engineer & Security Officer
 - Recently moved to Baldenhain
 #pause
-- Looking for a cozy place to talk about tech!
+- Looking for a cozy place to talk about tech frequently!
 #image("memes/new-friends.jpg", fit: "contain", width: 370pt)
 
 == My way to Rust
@@ -61,6 +60,7 @@ Disclaimer: I am a fan of Rust
   - Multiple platforms: Linux, Mac, Windows, Android, Web Assembly, ...
 #pause
 - Widely adopted own documentation standard
+//#TODO: Error handling
 - Enterprise features for stability and maintainability
 
 == Rust Intro
