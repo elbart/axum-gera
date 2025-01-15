@@ -11,74 +11,96 @@
       // codly()
   }),
 )
-// #set text(weight: "light", size: 20pt)
-
 = Fast and safe web services with axum
+== About me
+#slide[
+- Tim Eggert
+- Working at a Startup called #box(height: 20pt, image("img/qdrant-logo.png")) as a Staff Engineer & Security Officer
+- Recently moved to Baldenhain
+- *Looking for a cozy place to talk about tech frequently!*
+][
+#image("memes/new-friends.jpg", fit: "contain", width: 370pt)
+]
 
 == Goal
-- Broad Overview about Rust and it's current usage
+#slide[
+- Broad overview about Rust and it's current usage/applications
 - Detailed example to illustrate some features
 - Encourage audience to try it out
-
-== Outline
-- About myself
-- My way to Rust
-- Rust Introduction
-
-== About myself
-- Tim Eggert
-- Working at #box(height: 20pt, image("img/qdrant-logo.png")) as Staff Engineer & Security Officer
-- Recently moved to Baldenhain
-#pause
-- Looking for a cozy place to talk about tech frequently!
-#image("memes/new-friends.jpg", fit: "contain", width: 370pt)
+- Provide resources for continued research
+][
+#image("memes/jacky-chan-rust-usage.jpg", fit: "contain", width: 400pt)
+ ]
 
 == My way to Rust
-- Started with dynamic languages (PHP, later Python)
+#slide[
+- Started programming with dynamic languages (PHP, later Python)
 - Sometimes Java, but too verbose...
-- Some C++ 11 with type inference (`auto`)
-- Started my Rust journey in 2018
+- Some C++ 11 with type inference
 #pause
-#image("memes/borrow-checker.jpg", fit: "contain", width: 330pt)
-
-== Rust Intro
-#set quote(block: true)
-#quote(attribution: "https://www.rust-lang.org")[
- "A language empowering everyone to build reliable and efficient software."
+- Started my Rust journey in 2018 (freetime only)
+  - Steep learning curve
+  - Lot's of headaches with the Memory model
+][
+#image("memes/borrow-checker.jpg", fit: "contain", width: 400pt)
 ]
-== Rust Intro
-//#TODO
-Disclaimer: I am a fan of Rust
-== Rust Intro
-=== Overview 
-- Compiled, statically typed language
-- Ecosystem at hand with `cargo`: Build, test, release, format, lint, manage dependencies (so-called crates)
+
+== Rust Intro: Purpose
+#set align(center)
+#image("memes/safety-meme.jpg", width: 450pt)
 #pause
+#quote(block: true, attribution: "https://www.rust-lang.org")[
+ "A language empowering everyone to build reliable and efficient software."
+] 
+
+== Rust Intro: Disclaimer
+#set align(center)
+*Disclaimer!!! #linebreak() I am a fan of Rust, there might be a bias towards it which I cannot justify rationally...*
+
+== Rust Intro: Typical language features 
+#set align(left)
+- Compiled, statically typed language
+- Generics
+- Async
+- Macros
+- Multi-Threading
+- Concurrency & Thread Safety
+- Zero Cost Abstractions
+- Minimal Runtime
+- Inline Assembly Code
+
+== Rust Intro: Novel / exotic language features 
+- Ownership with Borrow Checker
+- Memory Safety without Garbage Collection
+- Pattern Matching + Advanced Enums
+- Traits + Trait Objects (Structs, but no Classes; Composition over Inheritance)
+- Option (no nulls pointers!) and Result Types 
+- Immutable by Default
+#pause
+- Ecosystem at hand with `cargo`: Build, test, release, format, lint, manage dependencies (so-called crates)
 - #text(blue.lighten(20%), link("https://doc.rust-lang.org/rustc/platform-support.html")[Many different build targets])
   - Embedded devices like ESP32
   - Major CPU architectures: x86, ARM, 
   - Multiple platforms: Linux, Mac, Windows, Android, Web Assembly, ...
 #pause
 - Widely adopted own documentation standard
-//#TODO: Error handling
-- Enterprise features for stability and maintainability
+- Enterprise features for stability and maintainability (Editions)
 
-== Rust Intro
-=== Origins
-- Brainchild of Graydon Hoare
-- Adopted + Sponsored by Mozilla in 2010
+== 
+#set align(center)
+#image("memes/information-you-give.jpg", fit: "contain", width: 400pt)
+
+== Rust Intro: Origins
+#set align(left)
+- Brainchild of Graydon Hoare started in 2006
+- Sponsored (2009) + officially adopted (2010) by Mozilla
 - Decision at Mozilla: Build new Browser Engine (Servo) from scratch based on Rust
+- Rust 1.0 was released (2015)
+- Adotion by bigger companies in 2020 (Amazon, Google, Microsoft)
+  - Rust Foundation was created in 2021
+  - Big Corps hired core engineers (Ex-Mozillians) and also long standing community members
 
-== Rust Intro
-=== Reliability: Memory Safety & Thread Safety
-
-#set quote(block: true)
-#quote(attribution: "https://www.rust-lang.org")[
-  "Rust's rich type system and ownership model guarantee memory-safety and thread-safety — enabling you to eliminate many classes of bugs at compile-time."
-]
-
-== Rust Intro
-=== Usage / Adoption
+== Rust Intro: Usage / Applications
 - #text(blue.lighten(20%), link("https://google.github.io/comprehensive-rust/")[Android])
 - AWS Lambda (via #text(blue.lighten(20%), link("https://firecracker-microvm.github.io/")[Firecracker]))
 - Discord, Dropbox, Cloudflare backend systems
@@ -92,8 +114,12 @@ Disclaimer: I am a fan of Rust
 
 ... and #text(blue.lighten(20%), link("https://github.com/rust-unofficial/awesome-rust")[many many more])
 
-== Rust Intro
-=== Hello World
+== Demo Time
+#set align(center)
+#image("memes/get-started.jpg", fit: "contain", width: 400pt)
+
+== Demo Time: Setup / Installation
+#set align(left)
 - Install Rust toolchain via #text(blue.lighten(20%), link("https://rustup.rs/")[rustup.rs]):
   #codly(number-format: none)
   ```shell
@@ -107,8 +133,7 @@ Disclaimer: I am a fan of Rust
   cargo run
   ```
 
-== Rust Intro
-=== Hello World
+== Demo Time: Hello World
   #codly(number-format: numbering.with("1"))
 ```rust
 fn main() {
@@ -141,8 +166,7 @@ cargo add serde_json
 
 == ToDo Example
 #set text(size: 17pt)
-=== Static Axum Server
-#codly(number-format: numbering.with("1"))
+#codly(header: [*Static Axum Server*], number-format: numbering.with("1"))
 ```rust
 use axum::{response::IntoResponse, routing::get, Router};
 
@@ -222,6 +246,17 @@ async fn list_todos() -> impl IntoResponse {
     return "Todos";
 }
 ```
+
+== ToDo Example
+#set text(size: 20pt)
+#codly(number-format: none)
+```shell
+cargo run --example 01_static
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running `target/debug/examples/01_static`
+Server running on http://127.0.0.1:3000
+```
+#codly(number-format: numbering.with("1"))
 
 == ToDo Example
 #set text(size: 20pt)
@@ -438,7 +473,17 @@ $> ls -lah ./target/release/todos
 -rwxr-xr-x@ 1 tim  staff   1.8M Jan 11 00:33 ./target/release/todos*
 ```
 
+== Questions
+#set text(size: 30pt)
+*Questions now or later while socializing :)*
 
+== Thanks
+#set text(size: 30pt)
+#slide[
+  *Thank you for listening and a big Thanks to our organizers!*
+][
+#image("memes/thank-you.jpg", fit: "contain", width: 400pt)
+]
 
 == Additional Notes
 - Weekly newsletter: "This week in Rust"
