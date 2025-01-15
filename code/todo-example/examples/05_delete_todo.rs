@@ -51,9 +51,9 @@ async fn delete_todo(Path(id): Path<Uuid>, State(state): State<Arc<AppState>>) -
     let mut todos = state.todos.write().await;
     if let Some(pos) = todos.iter().position(|todo| todo.id == id) {
         todos.remove(pos);
-        StatusCode::NO_CONTENT
+        return StatusCode::NO_CONTENT;
     } else {
-        StatusCode::NOT_FOUND
+        return StatusCode::NOT_FOUND;
     }
 }
 
@@ -64,7 +64,7 @@ async fn main() {
         .route("/todos", get(list_todos).post(create_todo))
         .route("/todos/{id}", delete(delete_todo))
         .with_state(state);
-    println!("Server running on http://127.0.0.1:3000");
+    println!("Server running on http://0.0.0.0:3000");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }

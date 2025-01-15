@@ -55,7 +55,7 @@
 
 == Rust Intro: Disclaimer
 #set align(center)
-*Disclaimer!!! #linebreak() I am a fan of Rust, there might be a bias towards it which I cannot justify rationally...*
+*Disclaimer!!! #linebreak() I am a fan of Rust, there might be a bias towards it,#linebreak() which I cannot justify rationally...*
 
 == Rust Intro: Typical language features 
 #set align(left)
@@ -64,7 +64,6 @@
 - Async
 - Macros
 - Multi-Threading
-- Concurrency & Thread Safety
 - Zero Cost Abstractions
 - Minimal Runtime
 - Inline Assembly Code
@@ -107,7 +106,7 @@
 - Mozilla Servo (browser engine)
 #pause
 - Databases (Meilisearch, Qdrant, ...)
-- CLI Tools , Editors, Terminal Emulators, Shells, Language tooling (ruff, uv, ...)
+- CLI Tools, Editors, Terminal Emulators, Shells, Language tooling (ruff, uv, ...)
 - Deno (nodejs runtime competitor)
 - Operating Systems (Redox OS, Linux Kernel)
 - Cryptocurrency projects
@@ -161,10 +160,16 @@ cargo add axum
 cargo add tokio --features full
 cargo add serde --features derive
 cargo add uuid --features v4 --features serde
-cargo add serde_json
 ```
 
-== ToDo Example
+== ToDo Example: Structure
+- Simple static axum server
+- Static JSON response
+- Dynamic JSON response
+- Create Todos
+- Delete Todos
+
+== ToDo Example: Static axum server
 #set text(size: 17pt)
 #codly(header: [*Static Axum Server*], number-format: numbering.with("1"))
 ```rust
@@ -173,13 +178,13 @@ use axum::{response::IntoResponse, routing::get, Router};
 #[tokio::main]
 async fn main() {
     let app = Router::new().route("/todos", get(list_todos));
-    println!("Server running on http://127.0.0.1:3000");
+    println!("Server running on http://0.0.0.0:3000");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
 ```
 
-== ToDo Example
+== ToDo Example: Static axum server
 #set text(size: 17pt)
 #codly(header: [*Static Axum Server*], highlights: (
   (line: 1, fill: green),
@@ -191,13 +196,13 @@ use axum::{response::IntoResponse, routing::get, Router};
 #[tokio::main]
 async fn main() {
     let app = Router::new().route("/todos", get(list_todos));
-    println!("Server running on http://127.0.0.1:3000");
+    println!("Server running on http://0.0.0.0:3000");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
 ```
 
-== ToDo Example
+== ToDo Example: Static axum server
 #set text(size: 17pt)
 #codly(header: [*Static Axum Server*], highlights: (
   (line: 7, start:5, fill: yellow),
@@ -209,13 +214,13 @@ use axum::{response::IntoResponse, routing::get, Router};
 #[tokio::main]
 async fn main() {
     let app = Router::new().route("/todos", get(list_todos));
-    println!("Server running on http://127.0.0.1:3000");
+    println!("Server running on http://0.0.0.0:3000");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
 ```
 
-== ToDo Example
+== ToDo Example: Static axum server
 #set text(size: 17pt)
 #codly(header: [*Static Axum Server*], highlights: (
   (line: 5, start:35, end: 42, fill: green),
@@ -228,13 +233,13 @@ use axum::{response::IntoResponse, routing::get, Router};
 #[tokio::main]
 async fn main() {
     let app = Router::new().route("/todos", get(list_todos));
-    println!("Server running on http://127.0.0.1:3000");
+    println!("Server running on http://0.0.0.0:3000");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
 ```
 
-== ToDo Example
+== ToDo Example: static list_todos function
 #set text(size: 20pt)
 #codly(header: [*handler function to list Todos*], highlights: (
   (line: 1, start: 10, end: 19, fill: fuchsia),
@@ -247,18 +252,18 @@ async fn list_todos() -> impl IntoResponse {
 }
 ```
 
-== ToDo Example
+== ToDo Example: Running the static server
 #set text(size: 20pt)
 #codly(number-format: none)
 ```shell
 cargo run --example 01_static
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
      Running `target/debug/examples/01_static`
-Server running on http://127.0.0.1:3000
+Server running on http://0.0.0.0:3000
 ```
 #codly(number-format: numbering.with("1"))
 
-== ToDo Example
+== ToDo Example: Static JSON response
 #set text(size: 20pt)
 #codly(header: [*Add a TodoItem type / struct*], highlights: (
   (line: 4, fill: green),
@@ -279,7 +284,7 @@ struct TodoItem {
 }
 ```
 
-== ToDo Example
+== ToDo Example: Static JSON response
 #set text(size: 20pt)
 #codly(header: [*Return static TodoItem as JSON*], highlights: (
 (line: 3, start: 26, end: 44, fill: green),
@@ -298,7 +303,7 @@ async fn list_todos() -> Json<Vec<TodoItem>> {
 }
 ```
 
-== ToDo Example
+== ToDo Example: Dynamic JSON response
 #set text(size: 20pt)
 #codly(header: [*Add shared state*], highlights: (
   (line: 5, start: 5, fill: green),
@@ -312,7 +317,7 @@ struct AppState {
 }
 ```
 
-== ToDo Example
+== ToDo Example: Dynamic JSON response
 #set text(size: 20pt)
 #codly(header: [*Add shared state*], highlights: (
   (line: 5, start: 5, fill: green),
@@ -332,7 +337,7 @@ async fn main() {
 }
 ```
 
-== ToDo Example
+== ToDo Example: Dynamic JSON response
 #set text(size: 17pt)
 #codly(header: [*Use AppState in list handler*], highlights: (
   (line: 3, start: 21, end: 54, fill: green),
@@ -347,7 +352,7 @@ async fn list_todos(State(state): State<Arc<AppState>>) -> Json<Vec<TodoItem>> {
 }
 ```
 
-== ToDo Example
+== ToDo Example: Create Todo feature
 #set text(size: 20pt)
 #codly(header: [*Add `POST /todos`*], highlights: (
   (line: 7, start: 41, end: 58, fill: green),
@@ -366,7 +371,7 @@ async fn main() {
 }
 ```
 
-== ToDo Example
+== ToDo Example: Create Todo feature
 #set text(size: 17pt)
 #codly(header: [*Add a request type for TodoItem*], highlights: (
   (line: 2, start: 8, end: 28, fill: fuchsia),
@@ -379,7 +384,7 @@ struct TodoItemCreateRequest {
 }
 ```
 
-== ToDo Example
+== ToDo Example: Create Todo feature
 #set text(size: 16pt)
 #codly(header: [*Add `create_todo` handler function*], highlights: (
   (line: 2, start: 11, end: 15, fill: blue),
@@ -406,11 +411,11 @@ async fn create_todo(
         completed: payload.completed,
     };
     todos.push(todo.clone());
-    Json(todo)
+    return Json(todo);
 }
 ```
 
-== ToDo Example
+== ToDo Example: Delete Todo feature
 #set text(size: 20pt)
 #codly(header: [*Add `DELETE /todo/{id}`*], highlights: (
   (line: 8, start: 9, end: 50, fill: green),
@@ -430,8 +435,7 @@ async fn main() {
 }
 ```
 
-
-== ToDo Example
+== ToDo Example: Delete Todo feature
 #set text(size: 15pt)
 #codly(header: [*Add `DELETE /todo/{id}`*], highlights: (
   (line: 4, start: 10, end: 11, fill: fuchsia),
@@ -443,8 +447,8 @@ async fn main() {
   (line: 8, start: 24, end: 35, fill: yellow),
   (line: 8, start: 64, end: 65, fill: fuchsia),
   (line: 9, start: 9, end: 26, fill: yellow),
-  (line: 10, start: 9, end: 30, fill: green),
-  (line: 12, start: 9, end: 29, fill: green),
+  (line: 10, start: 9, end: 40, fill: green),
+  (line: 12, start: 9, end: 43, fill: green),
 ))
 ```rust
 use axum::{extract::Path, http::StatusCode};
@@ -456,9 +460,9 @@ async fn delete_todo(
     let mut todos = state.todos.write().await;
     if let Some(pos) = todos.iter().position(|todo| todo.id == id) {
         todos.remove(pos);
-        StatusCode::NO_CONTENT
+        return StatusCode::NO_CONTENT;
     } else {
-        StatusCode::NOT_FOUND
+        return StatusCode::NOT_FOUND;
     }
 }
 ```
@@ -477,6 +481,22 @@ $> ls -lah ./target/release/todos
 #set text(size: 30pt)
 *Questions now or later while socializing :)*
 
+== Additional Notes
+#set text(size: 20pt)
+- Weekly newsletter: "This week in Rust"
+- Books / Reads: 
+  - "The Rust Programming Language"
+  - rustbyexample.io
+  - "Programming Rust: Fast, Safe Systems Development"
+  - "Rust for Rustaceans"
+  - "Zero To Production In Rust"
+- Youtube channels:
+  - #link("https://www.youtube.com/c/JonGjengset")[Crust of Rust (Jon Gjengset)]
+  - #link("https://www.youtube.com/@RyanLevicksVideos")[Ryan Levick (old but nice)]
+  - #link("https://www.youtube.com/@chrisbiscardi")[Chris Biscardi]
+#linebreak()
+*Fun fact: Those slides were created with typst (a Latex successor written in Rust)*
+
 == Thanks
 #set text(size: 30pt)
 #slide[
@@ -484,10 +504,3 @@ $> ls -lah ./target/release/todos
 ][
 #image("memes/thank-you.jpg", fit: "contain", width: 400pt)
 ]
-
-== Additional Notes
-- Weekly newsletter: "This week in Rust"
-- Wide Editor support: (RustRover, VSCode, Emacs, Vim, Zed, ...)
-- Deep Dives: Crust of Rust
-- Books: Which ones?
-// TODO: compare cargo,axum,crate etc with equivalents in JS/PHP world
